@@ -48,21 +48,27 @@
   }
 </script>
 
-<div class="card-body">
-  <h2 class="card-title">Load Key File</h2>
+<div class="card-content">
   <p>
     Import a key pair or public key from a file. Supports both armored and binary formats.
   </p>
-  <input
-    type="file"
-    bind:this={fileInput}
-    on:change={handleFileChange}
-    accept=".asc,.gpg,.pgp"
-    class="file-input file-input-bordered w-full"
-    disabled={loading}
-  />
+  <div class="file block">
+    <label class="file-label">
+      <input
+	type="file"
+	bind:this={fileInput}
+	on:change={handleFileChange}
+	accept=".asc,.gpg,.pgp"
+	class="file-input" 
+	disabled={loading}
+      />
+      <span class="file-cta">
+        <span class="file-label"> Choose a file… </span>
+      </span>
+    </label>
+  </div>
   {#if status}
-    <div class="alert {status.type === 'success' ? 'alert-success' : 'alert-error'}">
+    <div class="notification {status.type === 'success' ? 'is-success' : 'is-danger'}">
       <span>{status.message}</span>
     </div>
   {/if}

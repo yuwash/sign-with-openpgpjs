@@ -34,9 +34,8 @@
   }
 </script>
 
-<div class="card-body">
-    <h2 class="card-title">Generate Key</h2>
-    <div class="form-control">
+<div class="card-content">
+    <div class="field">
       <label class="label">
         <span class="label-text">Name (required)</span>
       </label>
@@ -44,33 +43,32 @@
         type="text"
         bind:value={name}
         placeholder="Your name"
-        class="input input-bordered"
+        class="input"
         required
       />
     </div>
-    <div class="form-control">
+    <div class="field">
       <label class="label">
         <span class="label-text">Email (optional)</span>
       </label>
       <input
         type="email"
         bind:value={email}
-        placeholder="your@email.com"
-        class="input input-bordered"
+        placeholder="your@email.com"        
+        class="input"
       />
     </div>
     <label class="label">
       <span class="label-text">Key Type</span>
     </label>
-    <select
-      bind:value={keyType}
-      class="select select-bordered w-full"
-    >
-      <option value="ecc">ECC (fast)</option>
-      <option value="rsa">RSA (compatible)</option>
-    </select>
+    <div class="select is-fullwidth block">
+      <select bind:value={keyType} >
+	<option value="ecc">ECC (fast)</option>
+	<option value="rsa">RSA (compatible)</option>
+      </select>
+    </div>
     <button
-      class="btn btn-primary"
+      class="button is-primary"
       on:click={handleGenerateKey}
       disabled={generating || !name}
     >

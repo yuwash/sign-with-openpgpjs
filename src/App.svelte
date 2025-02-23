@@ -20,15 +20,15 @@
   }
 </script>
 
-<main class="max-w-3xl mx-auto">
-  <div class="navbar bg-base-300">
-    <div class="flex-1">
-      <h1 class="text-xl">Sign with OpenPGP.js</h1>
+<main class="container is-max-desktop">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <h1 class="navbar-item title">Sign with OpenPGP.js</h1>
     </div>
-    <div class="flex-none">
-      <a href="https://github.com/yuwash/sign-with-openpgpjs">GitHub</a>
+    <div class="navbar-end">
+      <a class="navbar-item" href="https://github.com/yuwash/sign-with-openpgpjs">GitHub</a>
     </div>
-  </div>
+  </nav>
 
   <AddKeys on:addKeys={handleAddKeys} />
 

@@ -30,26 +30,25 @@
   }
 </script>
 
-<div class="card-body">
-  <h2 class="card-title">Paste Keys</h2>
+<div class="card-content">
   <p>
     Paste your armored public key or key pair here.
   </p>
   <textarea
     bind:value={pasteInput}
     placeholder="-----BEGIN PGP PUBLIC KEY BLOCK-----"
-    class="textarea textarea-bordered h-48 font-mono text-sm w-full"
+    class="textarea is-family-monospace block"
     disabled={loading}
   />
   <button
-    class="btn btn-primary mt-4"
+    class="button is-primary block"
     on:click={handlePaste}
     disabled={loading || !pasteInput.trim()}
   >
     {loading ? 'Loading...' : 'Import Keys'}
   </button>
   {#if status}
-    <div class="alert {status.type === 'success' ? 'alert-success' : 'alert-error'}">
+    <div class="notification {status.type === 'success' ? 'is-success' : 'is-danger'}">
       <span>{status.message}</span>
     </div>
   {/if}

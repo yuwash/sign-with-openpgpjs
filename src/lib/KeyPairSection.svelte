@@ -2,6 +2,7 @@
   import type { KeyPair } from './pgp';
   import PrivateKeySection from './PrivateKeySection.svelte';
   import PublicKeySection from './PublicKeySection.svelte';
+  import CollapsibleCard from './CollapsibleCard.svelte';
   import { createEventDispatcher } from 'svelte';
   
   export let keyPair: KeyPair;
@@ -18,12 +19,8 @@
   }
 </script>
 
-<div class="collapse collapse-arrow bg-base-200 shadow-xl mb-2">
-  <input type="checkbox" /> 
-  <div class="collapse-title text-xl font-medium">
-    {userId} ({keyId})
-  </div>
-  <div class="collapse-content">
+<CollapsibleCard label="{userId} ({keyId})" open={false}>
+  <div class="card-content">
     <PublicKeySection 
       publicKey={keyPair.publicKey}
       publicKeyObj={keyPair.publicKeyObj}
@@ -34,10 +31,12 @@
         privateKeyObj={keyPair.privateKeyObj}
       />
     {/if}
-    <div class="card-actions justify-end">
-      <button class="btn btn-error join-item" on:click={handleDelete}>
+  </div>
+  <footer class="card-footer">
+    <div class="card-footer-item">
+      <button class="button is-danger" on:click={handleDelete}>
         Delete
       </button>
     </div>
-  </div>
-</div>
+  </footer>
+</CollapsibleCard>
