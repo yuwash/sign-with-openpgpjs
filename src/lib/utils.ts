@@ -11,8 +11,9 @@ export function slugify(text: string): string {
 
 export async function processKeys(input: string | Uint8Array): Promise<KeyPair> {
   const readKeysParams = (typeof input === 'string') ? { armoredKeys: input } : { binaryKeys: input };
-  const publicKeys = await openpgp.readKeys(readKeysParams);
-  const privateKeys = await openpgp.readPrivateKeys(readKeysParams).catch(() => []);
+  const keys = await openpgp.readKeys(readKeysParams)
+  const privateKeys = keys.filter(key => key.isPrivate());
+  const publicKeys = privateKeys.length > 0 ? privateKeys.map(key => key.toPublic()) : keys;
 
   if (publicKeys.length > 0) {
     return await createKeyPairFromKeyObjs(publicKeys[0], privateKeys[0]);
