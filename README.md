@@ -1,7 +1,7 @@
 # Sign with OpenPGP.js
 
 Generate PGP key pairs, and sign messages in the browser using OpenPGP.js
-Built with Svelte and DaisyUI.
+Built with Svelte and Bulma.
 
 ## Features
 
