@@ -11,3 +11,7 @@ Built with Svelte and DaisyUI.
 - Verify signatures with public keys
 - Download public keys and key pairs
 - Support for both armored and unarmored key formats
+
+## Acknowledgements
+
+Icon is from https://fontawesome.com/icons/file-signature?f=classic&s=solid
