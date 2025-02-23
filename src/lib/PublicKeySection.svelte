@@ -3,6 +3,7 @@
   import { verifyMessage } from './pgp';
   import { downloadKey } from './utils';
   import CollapsibleCard from './CollapsibleCard.svelte';
+  import StatusNotification from './StatusNotification.svelte';
 
   export let publicKey: string;
   export let publicKeyObj: Key;
@@ -12,10 +13,20 @@
 
   $: fingerprint = publicKeyObj.getFingerprint();
 
-  $: if (signedMessage) {
-    verifySignedMessage();
-  } else {
-    verificationResult = null;
+  $: {
+    if (signedMessage) {
+      verifySignedMessage();
+    } else {
+      verificationResult = null;
+    }
+    if (signedMessage && verificationResult !== null) {
+      const statusMessage = verificationResult
+        ? 'Signature verified successfully!'
+        : 'Signature verification failed!';
+      verificationResult
+        ? statusNotification.post(statusMessage)
+        : statusNotification.postError(statusMessage);
+    }
   }
 
   async function verifySignedMessage() {
@@ -30,6 +41,8 @@
   function copyPublicKey() {
     navigator.clipboard.writeText(publicKey);
   }
+
+  let statusNotification: StatusNotification;
 </script>
 
 <CollapsibleCard label="Public Key" open={true}>
@@ -68,14 +81,12 @@
         class="textarea is-bordered is-full block"
       />
 
+      <StatusNotification bind:this={statusNotification} />
       {#if signedMessage && verificationResult !== null}
-        <div
-          class="notification {verificationResult ? 'is-success' : 'is-error'}"
-        >
-          {verificationResult
+        {@const statusMessage = verificationResult
             ? 'Signature verified successfully!'
             : 'Signature verification failed!'}
-        </div>
+        {@const _ = verificationResult ? statusNotification.post(statusMessage) : statusNotification.postError(statusMessage)}
       {/if}
     </CollapsibleCard>
   </div>

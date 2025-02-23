@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import type { KeyPair } from './pgp';
   import { processKeys } from './utils';
+  import StatusNotification from './StatusNotification.svelte';
 
   const dispatch = createEventDispatcher<{
     addKeys: KeyPair;
@@ -9,21 +10,20 @@
 
   let pasteInput = '';
   let loading = false;
-  let status: { type: 'success' | 'error'; message: string } | null = null;
+  let statusNotification: StatusNotification;
 
   async function handlePaste() {
     if (!pasteInput.trim()) return;
 
     loading = true;
-    status = null;
     try {
       const keyPair = await processKeys(pasteInput);
       dispatch('addKeys', keyPair);
       pasteInput = '';
-      status = { type: 'success', message: 'Keys imported successfully!' };
+      statusNotification.post('Keys imported successfully!');
     } catch (error) {
       console.error('Error reading pasted keys:', error);
-      status = { type: 'error', message: 'Failed to read keys. Please check the input format.' };
+      statusNotification.postError('Failed to read keys. Please check the input format.');
     } finally {
       loading = false;
     }
@@ -47,9 +47,5 @@
   >
     {loading ? 'Loading...' : 'Import Keys'}
   </button>
-  {#if status}
-    <div class="notification {status.type === 'success' ? 'is-success' : 'is-danger'}">
-      <span>{status.message}</span>
-    </div>
-  {/if}
+  <StatusNotification bind:this={statusNotification} />
 </div>
