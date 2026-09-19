@@ -1,18 +1,7 @@
 <script lang="ts">
-  import { Notification } from 'svelma';
-  import { onMount } from 'svelte';
-
   let active = false;
   let type = '';
   let message = '';
-  let notificationElement: Notification;
-
-  onMount(() => {
-    // Check if the notification element exists. If not, set active to false.
-    if (!notificationElement) {
-      active = false;
-    }
-  });
 
   function post(statusMessage: string) {
     type = 'is-success';
@@ -29,7 +18,9 @@
   export { post, postError, active };
 </script>
 
-<Notification bind:this={notificationElement} {type} {active} on:close={() => (active = false)}>
-  <!-- Need to override the `close` handling so the element isn’t deleted. -->
-  {message}
-</Notification>
+{#if active}
+  <div class="notification {type} block">
+    <button class="delete" on:click={() => (active = false)} aria-label="close"></button>
+    {message}
+  </div>
+{/if}
