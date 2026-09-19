@@ -34,7 +34,6 @@ jobs:
       - name: Install dependencies
         uses: pnpm/setup@v1
         with:
-          version: 11
           runtime: node@23
           cache: true
       - name: Build
